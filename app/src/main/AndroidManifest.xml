@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
-        android:name="com.lgh.tapclick.myclass.MyApplication"
+        android:name=".myclass.MyApplication"
         android:allowBackup="true"
         android:hasFragileUserData="true"
         android:icon="@drawable/app"
@@ -22,25 +22,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.lgh.tapclick.myactivity.LogActivity"
+            android:name=".myactivity.GetVipActivity"
             android:exported="false" />
         <activity
-            android:name="com.lgh.tapclick.myactivity.MainActivity"
+            android:name=".myactivity.LogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".myactivity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:mimeType="text/plain"
                     android:scheme="content" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
 
@@ -49,26 +57,26 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:name="com.lgh.tapclick.myactivity.ExceptionReportActivity"
+            android:name=".myactivity.ExceptionReportActivity"
             android:exported="false" />
-        <activity android:name="com.lgh.tapclick.myactivity.SettingActivity" />
-        <activity android:name="com.lgh.tapclick.myactivity.AuthorizationActivity" />
-        <activity android:name="com.lgh.tapclick.myactivity.AddDataActivity" />
+        <activity android:name=".myactivity.SettingActivity" />
+        <activity android:name=".myactivity.AuthorizationActivity" />
+        <activity android:name=".myactivity.AddDataActivity" />
         <activity
-            android:name="com.lgh.tapclick.myactivity.UpdateActivity"
+            android:name=".myactivity.UpdateActivity"
             android:theme="@style/MyDialog" />
-        <activity android:name="com.lgh.tapclick.myactivity.MoreMessageActivity" />
+        <activity android:name=".myactivity.MoreMessageActivity" />
         <activity
-            android:name="com.lgh.tapclick.myactivity.ShortCutActivity"
+            android:name=".myactivity.ShortCutActivity"
             android:theme="@android:style/Theme.NoDisplay" />
-        <activity android:name="com.lgh.tapclick.myactivity.ListDataActivity" />
+        <activity android:name=".myactivity.ListDataActivity" />
         <activity
-            android:name="com.lgh.tapclick.myactivity.EditDataActivity"
+            android:name=".myactivity.EditDataActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name="com.lgh.tapclick.myactivity.RegulationImportActivity" />
+        <activity android:name=".myactivity.RegulationImportActivity" />
 
         <service
-            android:name="com.lgh.tapclick.myfunction.MyTileService"
+            android:name=".myfunction.MyTileService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/add_data"
@@ -97,7 +105,7 @@
         </provider>
 
         <service
-            android:name="com.lgh.tapclick.myfunction.MyAccessibilityService"
+            android:name=".myfunction.MyAccessibilityService"
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="specialUse"
@@ -114,14 +122,14 @@
         </service>
 
         <provider
-            android:name="com.lgh.tapclick.myfunction.MyContentProvider"
+            android:name=".myfunction.MyContentProvider"
             android:authorities="${applicationId}"
             android:enabled="true"
             android:exported="false"
             android:process=":AccessibilityService" />
 
         <receiver
-            android:name="com.lgh.tapclick.myfunction.MyDeviceAdminReceiver"
+            android:name=".myfunction.MyDeviceAdminReceiver"
             android:description="@string/appName"
             android:enabled="true"
             android:exported="true"
@@ -130,6 +138,7 @@
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/configure_device_admin" />
+
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>

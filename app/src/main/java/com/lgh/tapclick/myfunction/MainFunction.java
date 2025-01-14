@@ -25,6 +25,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -407,7 +408,10 @@ public class MainFunction {
             if (nodeInfo != null) {
                 clickByWidget(nodeInfo, widgets);
                 for (int n = 0; n < nodeInfo.getChildCount(); n++) {
-                    list.add(nodeInfo.getChild(n));
+                    AccessibilityNodeInfo node = nodeInfo.getChild(n);
+                    if (node.isVisibleToUser()) {
+                        list.add(node);
+                    }
                 }
             }
         }
@@ -567,11 +571,11 @@ public class MainFunction {
         LinkedList<AccessibilityNodeInfo> listA = new LinkedList<>(root);
         HashSet<AccessibilityNodeInfo> setR = new HashSet<>();
         while (!listA.isEmpty()) {
-            AccessibilityNodeInfo node = listA.poll();
-            if (node != null) {
-                setR.add(node);
-                for (int n = 0; n < node.getChildCount(); n++) {
-                    listA.add(node.getChild(n));
+            AccessibilityNodeInfo nodeInfo = listA.poll();
+            if (nodeInfo != null) {
+                setR.add(nodeInfo);
+                for (int n = 0; n < nodeInfo.getChildCount(); n++) {
+                    listA.add(nodeInfo.getChild(n));
                 }
             }
         }
@@ -707,6 +711,9 @@ public class MainFunction {
 
                     @Override
                     public void run() {
+                        if (addDataBinding == null) {
+                            return;
+                        }
                         switch (action) {
                             case MotionEvent.ACTION_DOWN:
                                 startRowX = rowX;
@@ -778,6 +785,9 @@ public class MainFunction {
 
                     @Override
                     public void run() {
+                        if (viewClickPosition == null) {
+                            return;
+                        }
                         switch (action) {
                             case MotionEvent.ACTION_DOWN:
                                 cParams.alpha = 0.9f;

@@ -8,16 +8,21 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.lgh.tapclick.databinding.ActivityMoreMessageBinding;
+import com.lgh.tapclick.databinding.ActivityGetVipBinding;
+import com.lgh.tapclick.databinding.ViewDialogGetVipBinding;
+import com.lgh.tapclick.myfunction.MyUtils;
 
-public class MoreMessageActivity extends BaseActivity {
-    private ActivityMoreMessageBinding binding;
+public class GetVipActivity extends BaseActivity {
+
+    private ActivityGetVipBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMoreMessageBinding.inflate(getLayoutInflater());
+        binding = ActivityGetVipBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -32,6 +37,19 @@ public class MoreMessageActivity extends BaseActivity {
         WebSettings settings = getWebSettings();
         settings.supportMultipleWindows();
         binding.webView.loadUrl("https://docs.qq.com/doc/DWXhWVmFodlJGRnhL");
+
+        binding.getVip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewDialogGetVipBinding binding = ViewDialogGetVipBinding.inflate(getLayoutInflater());
+                binding.deviceNo.setText(MyUtils.getMyDeviceNo());
+                new AlertDialog.Builder(GetVipActivity.this)
+                        .setView(binding.getRoot())
+                        .setPositiveButton("确定", null)
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")

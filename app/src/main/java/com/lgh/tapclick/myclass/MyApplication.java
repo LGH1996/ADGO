@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.lgh.tapclick.mybean.MyAppConfig;
 import com.lgh.tapclick.myfunction.MyUtils;
 
+import cn.hutool.core.util.StrUtil;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -74,7 +75,7 @@ public class MyApplication extends Application {
         }
 
         if (myHttpRequest == null) {
-            Retrofit retrofit = new Retrofit.Builder().addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build();
+            Retrofit retrofit = new Retrofit.Builder().baseUrl("https://tapclick.com/").addConverterFactory(ScalarsConverterFactory.create()).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build();
             myHttpRequest = retrofit.create(MyHttpRequest.class);
         }
 

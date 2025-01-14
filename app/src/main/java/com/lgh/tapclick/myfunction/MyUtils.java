@@ -234,7 +234,7 @@ public class MyUtils {
     }
 
     @SuppressLint("HardwareIds")
-    public static String getMyDeviceId() {
+    public static String getMyDeviceNo() {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         String myDeviceId = sharedPreferences.getString("myDeviceId", null);
         if (StrUtil.isBlank(myDeviceId)) {

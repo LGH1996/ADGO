@@ -46,7 +46,6 @@ public class SettingActivity extends BaseActivity {
         myAppConfig = dataDao.getMyAppConfig();
 
         settingBinding.settingAutoHideOnTaskList.setChecked(myAppConfig.autoHideOnTaskList);
-
         settingBinding.settingOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +154,7 @@ public class SettingActivity extends BaseActivity {
         settingBinding.settingPraise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=%s" + getPackageName()));
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(Intent.createChooser(intent, "请选择应用市场"));
                 } else {
@@ -194,6 +193,13 @@ public class SettingActivity extends BaseActivity {
                 } else {
                     Toast.makeText(context, "未安装QQ或TIM", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        settingBinding.settingGetVip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, GetVipActivity.class));
             }
         });
     }
