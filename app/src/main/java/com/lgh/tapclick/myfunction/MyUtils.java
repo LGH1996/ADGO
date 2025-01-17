@@ -13,12 +13,13 @@ import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lgh.tapclick.BuildConfig;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -236,35 +237,35 @@ public class MyUtils {
     @SuppressLint("HardwareIds")
     public static String getMyDeviceNo() {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
-        String myDeviceId = sharedPreferences.getString("myDeviceId", null);
-        if (StrUtil.isBlank(myDeviceId)) {
-            Map<String, String> map = new TreeMap<>();
+        String myDeviceNo = sharedPreferences.getString("myDeviceNo", null);
+        if (StrUtil.isBlank(myDeviceNo)) {
+            Map<String, Object> mapMain = new TreeMap<>();
             Field[] fields = Build.class.getFields();
             for (Field field : fields) {
-                if (field.getType() == String.class) {
+                try {
                     field.setAccessible(true);
-                    try {
-                        String val = (String) field.get(Build.class);
-                        map.put(field.getName(), val);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (field.getType() == String[].class) {
-                    field.setAccessible(true);
-                    try {
-                        String[] val = (String[]) field.get(Build.class);
-                        map.put(field.getName(), Arrays.toString(val));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
+                    mapMain.put(field.getName(), field.get(Build.class));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
+            Map<String, Object> mapVersion = new TreeMap<>();
+            fields = Build.VERSION.class.getFields();
+            for (Field field : fields) {
+                try {
+                    field.setAccessible(true);
+                    mapVersion.put(field.getName(), field.get(Build.VERSION.class));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            mapMain.put(Build.VERSION.class.getSimpleName(), mapVersion);
             String androidId = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-            map.put(Settings.Secure.ANDROID_ID, androidId);
-            myDeviceId = DigestUtils.md5Hex(map.toString());
-            sharedPreferences.edit().putString("myDeviceId", myDeviceId).apply();
+            mapMain.put(Settings.Secure.ANDROID_ID, androidId);
+            Gson gson = new GsonBuilder().create();
+            myDeviceNo = DigestUtils.md5Hex(gson.toJson(mapMain)).toUpperCase();
+            sharedPreferences.edit().putString("myDeviceNo", myDeviceNo).apply();
         }
-        return myDeviceId;
+        return myDeviceNo;
     }
 }

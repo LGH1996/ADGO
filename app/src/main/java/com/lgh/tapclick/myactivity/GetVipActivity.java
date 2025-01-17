@@ -1,6 +1,7 @@
 package com.lgh.tapclick.myactivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.lgh.tapclick.databinding.ActivityGetVipBinding;
 import com.lgh.tapclick.databinding.ViewDialogGetVipBinding;
+import com.lgh.tapclick.mybean.MyAppConfig;
+import com.lgh.tapclick.myclass.MyApplication;
 import com.lgh.tapclick.myfunction.MyUtils;
 
 public class GetVipActivity extends BaseActivity {
@@ -45,8 +48,13 @@ public class GetVipActivity extends BaseActivity {
                 binding.deviceNo.setText(MyUtils.getMyDeviceNo());
                 new AlertDialog.Builder(GetVipActivity.this)
                         .setView(binding.getRoot())
-                        .setPositiveButton("确定", null)
                         .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
                         .show();
             }
         });

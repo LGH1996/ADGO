@@ -203,16 +203,4 @@ public class SettingActivity extends BaseActivity {
             }
         });
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0x01) {
-            if (!myAppConfig.isVip) {
-                myAppConfig.isVip = true;
-                dataDao.updateMyAppConfig(myAppConfig);
-                Toast.makeText(context, "水印已去除，重启后生效", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

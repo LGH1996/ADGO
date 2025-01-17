@@ -1,6 +1,5 @@
 package com.lgh.tapclick.myactivity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -25,11 +23,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
-import com.android.internal.org.bouncycastle.crypto.digests.MD5Digest;
-import com.android.internal.org.bouncycastle.jcajce.provider.digest.MD5;
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lgh.tapclick.BuildConfig;
@@ -50,36 +43,22 @@ import com.lgh.tapclick.myclass.DataDao;
 import com.lgh.tapclick.myclass.MyApplication;
 import com.lgh.tapclick.myfunction.MyUtils;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.Md5Crypt;
-
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.HashUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.SystemPropsUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import kotlinx.coroutines.internal.SystemPropsKt;
 
 public class MainActivity extends BaseActivity {
 
@@ -184,60 +163,7 @@ public class MainActivity extends BaseActivity {
         // 触发允许读取应用列表授权弹窗
         getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA);
 
-        Log.i("LinGH", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
-
-        Field[] fields = Build.class.getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            try {
-                Object o = field.get(Build.class);
-                Log.i("LinGH", field.getName() + ", " + o.toString());
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context);
-                    String adId = adInfo.getId();
-                    Log.i("LinGH", adId);
-                } catch (IOException | GooglePlayServicesNotAvailableException |
-                         GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-//        411b238f-bbae-4310-8ae9-7c53c86d3438
-
-//        Settings.Global.putString(getContentResolver(), "eee", "ddddd");
-//        SystemPropsUtil.set("qqqq", "rrrrrr");
-        Log.i("LinGH", getPseudoID());
-
-    }
-
-    @SuppressLint("HardwareIds")
-    public String getPseudoID() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Build.BOARD);
-        sb.append(Build.DEVICE);
-        sb.append(Build.DISPLAY);
-        sb.append(Build.HOST);
-        sb.append(Build.ID);
-        sb.append(Build.MANUFACTURER);
-        sb.append(Build.BRAND);
-        sb.append(Build.MODEL);
-        sb.append(Build.PRODUCT);
-        sb.append(Build.BOOTLOADER);
-        sb.append(Build.HARDWARE);
-        sb.append(Build.TAGS);
-        sb.append(Build.TYPE);
-        sb.append(Build.USER);
-        sb.append(Arrays.deepToString(Build.SUPPORTED_ABIS));
-        sb.append(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
-        return DigestUtil.md5Hex(sb.toString());
+        Log.i("LinGH", MyUtils.getMyDeviceNo());
     }
 
     @Override

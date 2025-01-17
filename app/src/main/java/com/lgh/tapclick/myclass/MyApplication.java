@@ -11,7 +11,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.lgh.tapclick.mybean.MyAppConfig;
 import com.lgh.tapclick.myfunction.MyUtils;
 
-import cn.hutool.core.util.StrUtil;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
